@@ -99,16 +99,15 @@ var dragended = function(d) {
 var colDetect = function(ast, pl, padding) {
   var pad = 2 * padding;
   var test = false;
-  for (var i = 0; i < ast.length - 1; i ++) {
-    console.log(pl.x, ast[i].__data__.x, pl.y, ast[i].__data__.y);
-    if (((pl.x <= ast[i].__data__.x + pad) && (pl.x >= ast[i].__data__.x - pad)) && (
-      (pl.y <= ast[i].__data__.y + pad) && (pl.y >= ast[i].__data__.y - pad))) {
-        console.log("true");
-        return true;
-    
+  console.log(ast);
+  gameboard.selectAll(".asteroids").each( function (d) {
+    if ((Math.sqrt((pl.x - d.x) * (pl.x - d.x) + (pl.y - d.y) * (pl.y - d.y))) <= pad) {
+      test = true;
     }
-  }
+  });
   return test;
+ 
+
 };
 
 
@@ -144,23 +143,25 @@ var update = function(asteroids) {
 
   selection.exit()
     .remove();
+
+
 };
 
 
 
 
-var selection = gameboard.selectAll(".asteroids").data(asteroids, function(d) { return d.id; });
+var selection = gameboard.selectAll(".asteroids");
 update(asteroids);
 createPlayer();
 //isPointInPoly(selection._enter, player[0]);
 d3.interval(function() {
   scoring();
-  if (colDetect(selection._enter[0], player[0],15)) {
+  if (colDetect(selection, player[0], 15)) {
     reset();
     collide();
   }
   //console.log(isPointInPoly(selection.attr('x'), player[0]));
-}, 50);
+}, 100);
 d3.interval(function() {
   console.log("updating");
   update(asteroids);

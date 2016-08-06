@@ -2,7 +2,14 @@ text {
   font: bold 30px monospace;
 }
 
-.asteroids {
-  background-image: url('asteroid.png')
+.asteroids{
+  
+  fill:purple;
+  stroke: black;
+
+}
+.player{
+  fill: green;
+  stroke: black;
 }
 
